@@ -1,70 +1,176 @@
+/* Reset default styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Body and general layout */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #fff0f6;
-  margin: 0;
-  padding: 0;
+  background-color: #f4f4f9;
+  color: #333;
+  line-height: 1.6;
 }
 
+/* Navigation menu styles */
 nav {
-  background-color: #e91e63;
-}
-
-ul.menu {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  background-color: #e91e63;
-}
-
-ul.menu > li {
-  position: relative;
-  padding: 14px 20px;
+  background-color: #333;
   color: white;
-  cursor: pointer;
+  padding: 10px 0;
+  position: relative;
+  z-index: 1000;
 }
 
-ul.menu > li:hover {
-  background-color: #c2185b;
+nav .menu {
+  display: flex;
+  justify-content: center;
+  list-style: none;
 }
 
-ul.menu > li ul {
+nav .menu > li {
+  position: relative;
+  margin: 0 15px;
+}
+
+nav .menu > li > a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  display: block;
+  font-weight: bold;
+}
+
+nav .menu > li > a:hover {
+  background-color: #555;
+  border-radius: 5px;
+}
+
+/* Dropdown menu styles */
+nav .menu li ul {
   display: none;
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: #f8bbd0;
-  min-width: 160px;
+  background-color: #333;
+  min-width: 180px;
   list-style: none;
-  padding: 0;
+  padding: 10px 0;
   margin: 0;
-  z-index: 1000;
+  border-radius: 5px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-ul.menu > li:hover ul {
+nav .menu li:hover > ul {
   display: block;
 }
 
-ul.menu li ul li {
-  padding: 12px 16px;
-}
-
-ul.menu li ul li a {
-  text-decoration: none;
-  color: #880e4f;
-}
-
-ul.menu li ul li a:hover {
-  background-color: #e91e63;
+nav .menu li ul li a {
   color: white;
+  padding: 10px 20px;
+  text-decoration: none;
   display: block;
 }
 
-main {
-  padding: 20px;
+nav .menu li ul li a:hover {
+  background-color: #555;
+  border-radius: 5px;
 }
 
-img {
-  border-radius: 10px;
+/* Back to Home link */
+.back-link {
+  display: block;
+  text-align: center;
+  margin: 20px 0;
+  font-size: 16px;
+  color: #0077cc;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+/* Form styles */
+form {
+  background-color: #ffffff;
+  padding: 20px;
+  margin: 20px auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+}
+
+form h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+form input,
+form select,
+form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+form input[type="submit"] {
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+form input[type="submit"]:hover {
+  background-color: #005fa3;
+}
+
+/* Confirmation box styles */
+.confirmation {
+  background-color: #f9f9f9;
+  border: 2px solid #0077cc;
+  padding: 20px;
   margin-top: 20px;
+  border-radius: 8px;
+  display: none;
+}
+
+.confirmation h2 {
+  color: #333;
+}
+
+.confirmation p {
+  margin: 5px 0;
+}
+
+.confirmation button {
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.confirmation button:hover {
+  background-color: #005fa3;
+}
+
+/* Error message styles */
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: -10px;
+  margin-bottom: 15px;
 }
