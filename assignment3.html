@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Assignment 3 - Daniela Arocho</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    form {
+      max-width: 600px;
+      margin: 30px auto;
+      background-color: #fce4ec;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #e91e63;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .form-section {
+      margin-bottom: 20px;
+    }
+    .error {
+      color: red;
+      font-size: 0.9em;
+    }
+    .confirmation {
+      background-color: #fff3f7;
+      padding: 20px;
+      border: 2px dashed #e91e63;
+      margin-top: 20px;
+      display: none;
+    }
+    button {
+      background-color: #e91e63;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #c2185b;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <ul class="menu">
+    <li>My Classes
+      <ul>
+        <li><a href="#">Web Systems I</a></li>
+        <li><a href="#">Business Writing</a></li>
+        <li><a href="#">Operating Systems</a></li>
+      </ul>
+    </li>
+    <li>My Assignments
+      <ul>
+        <li><a href="about.html">Assignment 1</a></li>
+        <li><a href="assigment2.html">Assignment 2</a></li>
+        <li><a href="assignment3.html">Assignment 3</a></li>
+      </ul>
+    </li>
+    <li>My Favorite Sites
+      <ul>
+        <li><a href="https://w3schools.com" target="_blank">W3Schools</a></li>
+        <li><a href="https://developer.mozilla.org" target="_blank">MDN</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<main>
+  <h1>Assignment 3: User Information Form</h1>
+
+  <form id="infoForm">
+    <div class="form-section">
+      <label for="name">Full Name:</label>
+      <input type="text" id="name" placeholder="First Last" required />
+    </div>
+
+    <div class="form-section">
+      <label for="address">Street Address:</label>
+      <input type="text" id="address" required />
+
+      <label for="city">City:</label>
+      <input type="text" id="city" required />
+
+      <label for="state">State:</label>
+      <input type="text" id="state" required />
+
+      <label for="zip">Zip Code:</label>
+      <input type="text" id="zip" pattern="\\d{5}" required />
+    </div>
+
+    <div class="form-section">
+      <label for="phone">Phone Number:</label>
+      <input type="tel" id="phone" placeholder="(123)456-7890" pattern="\\(\\d{3}\\)\\d{3}-\\d{4}" required />
+    </div>
+
+    <div class="form-section">
+      <label for="email">Email Address:</label>
+      <input type="email" id="email" required />
+    </div>
+
+    <div class="form-section">
+      <label for="birthdate">Birth Date:</label>
+      <input type="date" id="birthdate" required />
+    </div>
+
+    <div class="form-section">
+      <label for="message">Message:</label>
+      <textarea id="message" rows="4" required></textarea>
+    </div>
+
+    <div class="form-section">
+      <label for="confirm">What is 2 + 2?</label>
+      <input type="text" id="confirm" required />
+    </div>
+
+    <button type="button" onclick="validateForm()">Submit</button>
+  </form>
+
+  <div id="confirmationBox" class="confirmation"></div>
+</main>
+
+<script>
+  function validateForm() {
+    const name = document.getElementById('name').value.trim();
+    const address = document.getElementById('address').value.trim();
+    const city = document.getElementById('city').value.trim();
+    const state = document.getElementById('state').value.trim();
+    const zip = document.getElementById('zip').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const birthdate = document.getElementById('birthdate').value;
+    const message = document.getElementById('message').value.trim();
+    const confirm = document.getElementById('confirm').value.trim();
+
+    // Basic validation
+    const nameParts = name.split(" ");
+    if (nameParts.length < 2) return alert("Please enter both first and last name.");
+    if (!/^\(\d{3}\)\d{3}-\d{4}$/.test(phone)) return alert("Phone must be in format (123)456-7890");
+    if (!/^\d{5}$/.test(zip)) return alert("Zip code must be 5 digits.");
+    if (!email.includes("@") || !email.includes(".")) return alert("Please enter a valid email address.");
+
+    const birth = new Date(birthdate);
+    const today = new Date();
+    if (birth >= today) return alert("Birthdate must be in the past.");
+
+    if (confirm !== "4") return alert("Security question is incorrect.");
+
+    // Show confirmation
+    const confirmationBox = document.getElementById('confirmationBox');
+    confirmationBox.innerHTML = `
+      <h2>Please confirm your information:</h2>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Address:</strong> ${address}, ${city}, ${state}, ${zip}</p>
+      <p><strong>Phone:</strong> ${phone}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Birth Date:</strong> ${birthdate}</p>
+      <p><strong>Message:</strong> ${message}</p>
+      <button onclick="sendForm()">Confirm and Send</button>
+    `;
+    confirmationBox.style.display = "block";
+  }
+
+  function sendForm() {
+    alert("Form submitted! (mailto: is not enabled in this test version.)");
+
+    // Optionally use mailto if needed:
+    // window.location.href = `mailto:youremail@example.com?subject=Form Submission&body=...`;
+
+    // Reset form and hide confirmation
+    document.getElementById('infoForm').reset();
+    document.getElementById('confirmationBox').style.display = "none";
+  }
+</script>
+
+</body>
+</html>
