@@ -49,6 +49,17 @@
     button:hover {
       background-color: #c2185b;
     }
+    .back-link {
+      display: block;
+      margin: 20px auto;
+      max-width: 600px;
+      font-size: 1em;
+      color: #880e4f;
+      text-decoration: none;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -57,9 +68,12 @@
   <ul class="menu">
     <li>My Classes
       <ul>
-        <li><a href="#">Web Systems I</a></li>
-        <li><a href="#">Business Writing</a></li>
-        <li><a href="#">Operating Systems</a></li>
+        <li><a href="#">Web Systems I_521F_FA25_ON - COP4813_521F_FA25</a></li>
+        <li><a href="#">Business Writing_507A_FA25_ON - GEB3213_507A_FA25</a></li>
+        <li><a href="#">Web Systems I_522F_FA25_ON - COP4813_522F_FA25</a></li>
+        <li><a href="#">Operating Systems_521F_FA25_ON - COP4610_521F_FA25</a></li>
+        <li><a href="#">Applied Cybersecurity_521F_FA25_ON - CIS4360_521F_FA25</a></li>
+        <li><a href="#">Systems Integration_522F_FA25_ON - CEN4801_522F_FA25</a></li>
       </ul>
     </li>
     <li>My Assignments
@@ -71,14 +85,21 @@
     </li>
     <li>My Favorite Sites
       <ul>
-        <li><a href="https://w3schools.com" target="_blank">W3Schools</a></li>
-        <li><a href="https://developer.mozilla.org" target="_blank">MDN</a></li>
+        <li><a href="https://w3schools.com" target="_blank" rel="noopener noreferrer">W3Schools</a></li>
+        <li><a href="https://developer.mozilla.org" target="_blank" rel="noopener noreferrer">MDN</a></li>
+      </ul>
+    </li>
+    <li>Programming Sites
+      <ul>
+        <li><a href="#">Site 1</a></li>
+        <li><a href="#">Site 2</a></li>
       </ul>
     </li>
   </ul>
 </nav>
 
 <main>
+  <a href="index.html" class="back-link">← Back to Home</a>
   <h1>Assignment 3: User Information Form</h1>
 
   <form id="infoForm">
@@ -147,16 +168,34 @@
 
     // Basic validation
     const nameParts = name.split(" ");
-    if (nameParts.length < 2) return alert("Please enter both first and last name.");
-    if (!/^\(\d{3}\)\d{3}-\d{4}$/.test(phone)) return alert("Phone must be in format (123)456-7890");
-    if (!/^\d{5}$/.test(zip)) return alert("Zip code must be 5 digits.");
-    if (!email.includes("@") || !email.includes(".")) return alert("Please enter a valid email address.");
+    if (nameParts.length < 2) {
+      alert("Please enter both first and last name.");
+      return;
+    }
+    if (!/^\(\d{3}\)\d{3}-\d{4}$/.test(phone)) {
+      alert("Phone must be in format (123)456-7890");
+      return;
+    }
+    if (!/^\d{5}$/.test(zip)) {
+      alert("Zip code must be 5 digits.");
+      return;
+    }
+    if (!email.includes("@") || !email.includes(".")) {
+      alert("Please enter a valid email address.");
+      return;
+    }
 
     const birth = new Date(birthdate);
     const today = new Date();
-    if (birth >= today) return alert("Birthdate must be in the past.");
+    if (birth >= today) {
+      alert("Birthdate must be in the past.");
+      return;
+    }
 
-    if (confirm !== "4") return alert("Security question is incorrect.");
+    if (confirm !== "4") {
+      alert("Security question is incorrect.");
+      return;
+    }
 
     // Show confirmation
     const confirmationBox = document.getElementById('confirmationBox');
@@ -176,10 +215,9 @@
   function sendForm() {
     alert("Form submitted! (mailto: is not enabled in this test version.)");
 
-    // Optionally use mailto if needed:
-    // window.location.href = `mailto:youremail@example.com?subject=Form Submission&body=...`;
+    // Optional mailto code if you want:
+    // window.location.href = `mailto:youremail@example.com?subject=Form Submission&body=Name: ${encodeURIComponent(document.getElementById('name').value)}`;
 
-    // Reset form and hide confirmation
     document.getElementById('infoForm').reset();
     document.getElementById('confirmationBox').style.display = "none";
   }
