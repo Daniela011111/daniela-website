@@ -5,62 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Assignment 3 - Daniela Arocho</title>
   <link rel="stylesheet" href="styles.css" />
-  <style>
-    form {
-      max-width: 600px;
-      margin: 30px auto;
-      background-color: #fce4ec;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #e91e63;
-    }
-    label {
-      display: block;
-      margin: 10px 0 5px;
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    .form-section {
-      margin-bottom: 20px;
-    }
-    .error {
-      color: red;
-      font-size: 0.9em;
-    }
-    .confirmation {
-      background-color: #fff3f7;
-      padding: 20px;
-      border: 2px dashed #e91e63;
-      margin-top: 20px;
-      display: none;
-    }
-    button {
-      background-color: #e91e63;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #c2185b;
-    }
-    .back-link {
-      display: block;
-      margin: 20px auto;
-      max-width: 600px;
-      font-size: 1em;
-      color: #880e4f;
-      text-decoration: none;
-    }
-    .back-link:hover {
-      text-decoration: underline;
-    }
-  </style>
 </head>
 <body>
 
@@ -99,7 +43,6 @@
 </nav>
 
 <main>
-  <a href="index.html" class="back-link">← Back to Home</a>
   <h1>Assignment 3: User Information Form</h1>
 
   <form id="infoForm">
@@ -151,6 +94,9 @@
   </form>
 
   <div id="confirmationBox" class="confirmation"></div>
+
+  <!-- Back to Home link -->
+  <a href="index.html" class="back-link">← Back to Home</a>
 </main>
 
 <script>
@@ -209,19 +155,6 @@
       <p><strong>Message:</strong> ${message}</p>
       <button onclick="sendForm()">Confirm and Send</button>
     `;
-    confirmationBox.style.display = "block";
-  }
-
-  function sendForm() {
-    alert("Form submitted! (mailto: is not enabled in this test version.)");
-
-    // Optional mailto code if you want:
-    // window.location.href = `mailto:youremail@example.com?subject=Form Submission&body=Name: ${encodeURIComponent(document.getElementById('name').value)}`;
-
-    document.getElementById('infoForm').reset();
-    document.getElementById('confirmationBox').style.display = "none";
-  }
-</script>
-
-</body>
-</html>
+    confirmationBox.style.display =
+::contentReference[oaicite:0]{index=0}
+ 
