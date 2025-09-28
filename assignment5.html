@@ -1,49 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Spirograph</title>
-<style>
-  body { font-family: Arial, sans-serif; }
-  canvas { border: 1px solid black; display: block; margin: 10px 0; }
-  label { display: inline-block; width: 50px; }
-  input { width: 60px; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Assignment 5 - Daniela Arocho</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Additional styles specific for spirograph inputs & canvas */
+    main label {
+      display: inline-block;
+      width: 30px;
+      font-weight: bold;
+    }
+    main input[type=number] {
+      width: 60px;
+      margin-right: 15px;
+    }
+    canvas {
+      border: 1px solid black;
+      display: block;
+      margin: 20px 0;
+      background-color: white;
+    }
+    #controls {
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 <body>
 
-<h2>Spirograph Generator</h2>
+<nav>
+  <ul class="menu">
+    <li>My Classes
+      <ul>
+        <li><a href="#">Web Systems I_521F_FA25_ON - COP4813_521F_FA25</a></li>
+        <li><a href="#">Business Writing_507A_FA25_ON - GEB3213_507A_FA25</a></li>
+        <li><a href="#">Web Systems I_522F_FA25_ON - COP4813_522F_FA25</a></li>
+        <li><a href="#">Operating Systems_521F_FA25_ON - COP4610_521F_FA25</a></li>
+        <li><a href="#">Applied Cybersecurity_521F_FA25_ON - CIS4360_521F_FA25</a></li>
+        <li><a href="#">Systems Integration_522F_FA25_ON - CEN4801_522F_FA25</a></li>
+      </ul>
+    </li>
+    <li>My Assignments
+      <ul>
+        <li><a href="about.html">Assignment 1</a></li>
+        <li><a href="assigment2.html">Assignment 2</a></li>
+        <li><a href="assignment3.html">Assignment 3</a></li>
+        <li><a href="assignment5.html">Assignment 5</a></li>
+      </ul>
+    </li>
+    <li>My Favorite Sites
+      <ul>
+        <li><a href="https://w3schools.com" target="_blank" rel="noopener noreferrer">W3Schools</a></li>
+        <li><a href="https://developer.mozilla.org" target="_blank" rel="noopener noreferrer">MDN</a></li>
+      </ul>
+    </li>
+    <li>Programming Sites
+      <ul>
+        <li><a href="#">Site 1</a></li>
+        <li><a href="#">Site 2</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
 
-<div>
-  <label>R:</label><input type="number" id="R" value="100" min="10" max="200" />
-  <label>r:</label><input type="number" id="r" value="30" min="5" max="100" />
-  <label>O:</label><input type="number" id="O" value="50" min="0" max="100" />
-  <button id="startBtn">Start Drawing</button>
-</div>
+<main>
+  <h1>Assignment 5: Spirograph Generator</h1>
 
-<canvas id="canvas" width="600" height="600"></canvas>
+  <div id="controls">
+    <label for="R">R:</label>
+    <input type="number" id="R" value="100" min="10" max="200" />
+    <label for="r">r:</label>
+    <input type="number" id="r" value="30" min="5" max="100" />
+    <label for="O">O:</label>
+    <input type="number" id="O" value="50" min="0" max="100" />
+    <button id="startBtn">Start Drawing</button>
+  </div>
+
+  <canvas id="canvas" width="600" height="600"></canvas>
+
+  <!-- Back to Home link -->
+  <a href="index.html" class="back-link">← Back to Home</a>
+</main>
 
 <script>
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
   const startBtn = document.getElementById('startBtn');
 
-  // Clear and set origin to center
   function resetCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.setTransform(1, 0, 0, 1, 0, 0); // reset transform first
     ctx.translate(canvas.width / 2, canvas.height / 2);
     ctx.strokeStyle = 'blue';
     ctx.lineWidth = 1;
     ctx.beginPath();
   }
 
-  // We'll need to remove transform each time before reset or save/restore
   function clearAndReset() {
     ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
     resetCanvas();
   }
 
-  // Validate inputs and parse values
   function getParameters() {
     const R = parseFloat(document.getElementById('R').value);
     const r = parseFloat(document.getElementById('r').value);
@@ -60,16 +118,19 @@
     return { R, r, O };
   }
 
-  // Main drawing function
+  function gcd(a, b) {
+    if (!b) return a;
+    return gcd(b, a % b);
+  }
+
   function drawSpirograph(R, r, O) {
     clearAndReset();
 
     let t = 0;
-    const maxT = Math.PI * 2 * r / gcd(R, r); // Approximate one full cycle
-    let prevX, prevY;
+    const maxT = Math.PI * 2 * r / gcd(R, r);
+    ctx.beginPath();
 
     function drawStep() {
-      // Equation for x, y based on t
       const x = (R + r) * Math.cos(t) - (r + O) * Math.cos(((R + r) / r) * t);
       const y = (R + r) * Math.sin(t) - (r + O) * Math.sin(((R + r) / r) * t);
 
@@ -79,9 +140,6 @@
         ctx.lineTo(x, y);
         ctx.stroke();
       }
-
-      prevX = x;
-      prevY = y;
 
       t += 0.01;
 
@@ -93,21 +151,13 @@
     drawStep();
   }
 
-  // Greatest Common Divisor (needed to estimate cycle length)
-  function gcd(a, b) {
-    if (!b) return a;
-    return gcd(b, a % b);
-  }
-
   startBtn.addEventListener('click', () => {
     const params = getParameters();
     if (!params) return;
     drawSpirograph(params.R, params.r, params.O);
   });
 
-  // Initialize canvas with origin at center
   resetCanvas();
-
 </script>
 
 </body>
