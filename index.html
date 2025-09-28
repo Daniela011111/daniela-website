@@ -7,16 +7,29 @@
   <title>Home - Daniela Arocho</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      background-color: pink;
+      background-color: white;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      text-align: center;
     }
 
     nav {
-      background-color: #fff;
+      background-color: transparent;
       padding: 10px;
+      margin-bottom: 30px;
     }
 
     .menu {
@@ -24,7 +37,8 @@
       padding: 0;
       margin: 0;
       display: flex;
-      gap: 20px;
+      justify-content: center;
+      gap: 30px;
     }
 
     .menu > li {
@@ -34,11 +48,13 @@
     .menu li ul {
       display: none;
       position: absolute;
-      background-color: #fff;
+      background-color: pink;
       list-style-type: none;
       padding: 10px;
       margin: 0;
       border: 1px solid #ccc;
+      min-width: 250px;
+      z-index: 100;
     }
 
     .menu li:hover ul {
@@ -50,61 +66,70 @@
       color: #333;
     }
 
-    main {
-      text-align: center;
-      padding: 50px 20px;
-    }
-
     main img {
       max-width: 300px;
       height: auto;
       margin-top: 20px;
       border-radius: 8px;
     }
+
+    @media (max-width: 768px) {
+      .menu {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .menu li ul {
+        position: static;
+        margin-top: 10px;
+      }
+    }
   </style>
 </head>
 <body>
 
-<nav>
-  <ul class="menu">
-    <li>My Classes
-      <ul>
-        <li><a href="#">Web Systems I_521F_FA25_ON - COP4813_521F_FA25</a></li>
-        <li><a href="#">Business Writing_507A_FA25_ON - GEB3213_507A_FA25</a></li>
-        <li><a href="#">Web Systems I_522F_FA25_ON - COP4813_522F_FA25</a></li>
-        <li><a href="#">Operating Systems_521F_FA25_ON - COP4610_521F_FA25</a></li>
-        <li><a href="#">Applied Cybersecurity_521F_FA25_ON - CIS4360_521F_FA25</a></li>
-        <li><a href="#">Systems Integration_522F_FA25_ON - CEN4801_522F_FA25</a></li>
-      </ul>
-    </li>
-    <li>My Assignments
-      <ul>
-        <li><a href="about.html">Assignment 1</a></li>
-        <li><a href="assigment2.html">Assignment 2</a></li>
-        <li><a href="assignment3.html">Assignment 3</a></li>
-        <li><a href="assignment4.html">Assignment 4</a></li>
-      </ul>
-    </li>
-    <li>My Favorite Sites
-      <ul>
-        <li><a href="https://w3schools.com" target="_blank">W3Schools</a></li>
-        <li><a href="https://developer.mozilla.org" target="_blank">MDN</a></li>
-      </ul>
-    </li>
-    <li>Programming Sites
-      <ul>
-        <li><a href="#">Site 1</a></li>
-        <li><a href="#">Site 2</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
+<div class="container">
+  <nav>
+    <ul class="menu">
+      <li>My Classes
+        <ul>
+          <li><a href="#">Web Systems I_521F_FA25_ON - COP4813_521F_FA25</a></li>
+          <li><a href="#">Business Writing_507A_FA25_ON - GEB3213_507A_FA25</a></li>
+          <li><a href="#">Web Systems I_522F_FA25_ON - COP4813_522F_FA25</a></li>
+          <li><a href="#">Operating Systems_521F_FA25_ON - COP4610_521F_FA25</a></li>
+          <li><a href="#">Applied Cybersecurity_521F_FA25_ON - CIS4360_521F_FA25</a></li>
+          <li><a href="#">Systems Integration_522F_FA25_ON - CEN4801_522F_FA25</a></li>
+        </ul>
+      </li>
+      <li>My Assignments
+        <ul>
+          <li><a href="about.html">Assignment 1</a></li>
+          <li><a href="assigment2.html">Assignment 2</a></li>
+          <li><a href="assignment3.html">Assignment 3</a></li>
+          <li><a href="assignment4.html">Assignment 4</a></li>
+        </ul>
+      </li>
+      <li>My Favorite Sites
+        <ul>
+          <li><a href="https://w3schools.com" target="_blank">W3Schools</a></li>
+          <li><a href="https://developer.mozilla.org" target="_blank">MDN</a></li>
+        </ul>
+      </li>
+      <li>Programming Sites
+        <ul>
+          <li><a href="#">Site 1</a></li>
+          <li><a href="#">Site 2</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
 
-<main>
-  <h1>Welcome to My Website</h1>
-  <p>This is the home page for Daniela Arocho's COP4813 projects.</p>
-  <img src="myphoto.JPG" alt="Daniela Arocho" />
-</main>
+  <main>
+    <h1>Welcome to My Website</h1>
+    <p>This is the home page for Daniela Arocho's COP4813 projects.</p>
+    <img src="myphoto.JPG" alt="Daniela Arocho" />
+  </main>
+</div>
 
 </body>
 </html>
