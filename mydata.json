@@ -1,0 +1,22 @@
+{
+  "players": [
+    {
+      "name": "Alex Morgan",
+      "team": "Orlando Pride",
+      "season": "2023",
+      "goals": 18
+    },
+    {
+      "name": "Lionel Messi",
+      "team": "Inter Miami",
+      "season": "2023",
+      "goals": 23
+    },
+    {
+      "name": "Christine Sinclair",
+      "team": "Portland Thorns",
+      "season": "2023",
+      "goals": 10
+    }
+  ]
+}

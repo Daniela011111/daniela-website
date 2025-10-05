@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Assignment 6 - Daniela Arocho</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    main table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+    }
+    main th, main td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    main th {
+      background-color: #f2f2f2;
+    }
+    .back-link {
+      display: block;
+      margin: 20px auto;
+      width: fit-content;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <ul class="menu">
+    <li>My Classes
+      <ul>
+        <li><a href="#">Web Systems I_521F_FA25_ON - COP4813_521F_FA25</a></li>
+        <li><a href="#">Business Writing_507A_FA25_ON - GEB3213_507A_FA25</a></li>
+        <li><a href="#">Web Systems I_522F_FA25_ON - COP4813_522F_FA25</a></li>
+        <li><a href="#">Operating Systems_521F_FA25_ON - COP4610_521F_FA25</a></li>
+        <li><a href="#">Applied Cybersecurity_521F_FA25_ON - CIS4360_521F_FA25</a></li>
+        <li><a href="#">Systems Integration_522F_FA25_ON - CEN4801_522F_FA25</a></li>
+      </ul>
+    </li>
+    <li>My Assignments
+      <ul>
+        <li><a href="about.html">Assignment 1</a></li>
+        <li><a href="assigment2.html">Assignment 2</a></li>
+        <li><a href="assignment3.html">Assignment 3</a></li>
+        <li><a href="assignment5.html">Assignment 5</a></li>
+        <li><a href="assignment6.html">Assignment 6</a></li>
+      </ul>
+    </li>
+    <li>My Favorite Sites
+      <ul>
+        <li><a href="https://w3schools.com" target="_blank" rel="noopener noreferrer">W3Schools</a></li>
+        <li><a href="https://developer.mozilla.org" target="_blank" rel="noopener noreferrer">MDN</a></li>
+      </ul>
+    </li>
+    <li>Programming Sites
+      <ul>
+        <li><a href="#">Site 1</a></li>
+        <li><a href="#">Site 2</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<main>
+  <h1>Assignment 6: Player Stats from JSON</h1>
+
+  <table id="playerTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Team</th>
+        <th>Season</th>
+        <th>Goals</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Populated by JS -->
+    </tbody>
+  </table>
+
+  <a href="index.html" class="back-link">← Back to Home</a>
+</main>
+
+<script>
+  $(document).ready(function () {
+    $.getJSON("mydata.json", function (data) {
+      var players = data.players;
+      var tableBody = "";
+
+      $.each(players, function (i, player) {
+        tableBody += "<tr>" +
+                       "<td>" + player.name + "</td>" +
+                       "<td>" + player.team + "</td>" +
+                       "<td>" + player.season + "</td>" +
+                       "<td>" + player.goals + "</td>" +
+                     "</tr>";
+      });
+
+      $("#playerTable tbody").html(tableBody);
+    }).fail(function () {
+      alert("Error loading JSON data.");
+    });
+  });
+</script>
+
+</body>
+</html>
