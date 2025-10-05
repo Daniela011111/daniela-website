@@ -58,6 +58,36 @@
 </head>
 <body>
 
+<nav>
+  <ul class="menu">
+    <li><a href="#">My Classes</a>
+      <ul>
+        <li><a href="#">Web Systems I</a></li>
+        <li><a href="#">Business Writing</a></li>
+        <li><a href="#">Operating Systems</a></li>
+        <li><a href="#">Applied Cybersecurity</a></li>
+        <li><a href="#">Systems Integration</a></li>
+      </ul>
+    </li>
+    <li><a href="#">My Assignments</a>
+      <ul>
+        <li><a href="about.html">Assignment 1</a></li>
+        <li><a href="assigment2.html">Assignment 2</a></li>
+        <li><a href="assignment3.html">Assignment 3</a></li>
+        <li><a href="assignment4.html">Assignment 4</a></li>
+        <li><a href="assignment5.html">Assignment 5</a></li>
+        <li><a href="assignment6.html">Assignment 6</a></li>
+      </ul>
+    </li>
+    <li><a href="#">My Favorite Sites</a>
+      <ul>
+        <li><a href="https://w3schools.com" target="_blank">W3Schools</a></li>
+        <li><a href="https://developer.mozilla.org" target="_blank">MDN</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
 <main>
   <h1>Puerto Rico Olympic Team 2024</h1>
 
@@ -82,7 +112,7 @@
         <th>Team</th>
         <th>Season</th>
         <th>Games</th>
-        <th class="sortable" data-sort="fgm_percentage">FGM%</th>
+        <th class="sortable" data-sort="fgm_percentage">FGM% &#x25B2;&#x25BC;</th>
         <th>PPG</th>
         <th>APG</th>
         <th>RPG</th>
@@ -90,7 +120,7 @@
       </tr>
     </thead>
     <tbody id="playerTable">
-      <!-- Populated by JS -->
+      <!-- Populated by JavaScript -->
     </tbody>
   </table>
 
@@ -99,10 +129,11 @@
 
 <script>
   let allPlayers = [];
-  let currentSort = { key: null, ascending: true };
+  let currentSort = { key: '', direction: 1 }; // 1 = asc, -1 = desc
 
+  // Extract last name for sorting
   function getLastName(fullName) {
-    return fullName.split(',')[0].trim();
+    return fullName.split(',')[0].trim().toLowerCase();
   }
 
   function populateTable(data) {
@@ -126,36 +157,30 @@
     });
   }
 
-  function updateFilters() {
+  function updateFiltersAndSort() {
     const selectedSeason = $("#seasonSelect").val();
     const selectedTeam = $("#teamSelect").val();
 
-    const filtered = allPlayers.filter(player =>
+    let filtered = allPlayers.filter(player =>
       (selectedSeason === "" || player.season === selectedSeason) &&
       (selectedTeam === "" || player.team === selectedTeam)
     );
 
+    // Sorting logic
+    if (currentSort.key) {
+      filtered.sort((a, b) => {
+        let aVal = currentSort.key === "lastName" ? getLastName(a.name) : a[currentSort.key];
+        let bVal = currentSort.key === "lastName" ? getLastName(b.name) : b[currentSort.key];
+
+        if (typeof aVal === 'string') {
+          return aVal.localeCompare(bVal) * currentSort.direction;
+        } else {
+          return (aVal - bVal) * currentSort.direction;
+        }
+      });
+    }
+
     populateTable(filtered);
-  }
-
-  function sortBy(key) {
-    const sorted = [...allPlayers];
-    const isAscending = currentSort.key === key ? !currentSort.ascending : true;
-
-    sorted.sort((a, b) => {
-      let valA = key === "lastName" ? getLastName(a.name) : a[key];
-      let valB = key === "lastName" ? getLastName(b.name) : b[key];
-
-      if (typeof valA === "string") valA = valA.toLowerCase();
-      if (typeof valB === "string") valB = valB.toLowerCase();
-
-      if (valA < valB) return isAscending ? -1 : 1;
-      if (valA > valB) return isAscending ? 1 : -1;
-      return 0;
-    });
-
-    currentSort = { key, ascending: isAscending };
-    populateTable(sorted);
   }
 
   $(document).ready(function () {
@@ -173,19 +198,30 @@
       teams.forEach(team => {
         $("#teamSelect").append(`<option value="${team}">${team}</option>`);
       });
+
+      updateFiltersAndSort();
     });
 
-    $("#seasonSelect, #teamSelect").on("change", updateFilters);
+    $("#seasonSelect, #teamSelect").on("change", updateFiltersAndSort);
 
     $("#resetBtn").on("click", function () {
       $("#seasonSelect").val("");
       $("#teamSelect").val("");
-      populateTable(allPlayers);
+      currentSort = { key: '', direction: 1 };
+      updateFiltersAndSort();
     });
 
     $("th.sortable").on("click", function () {
       const sortKey = $(this).data("sort");
-      sortBy(sortKey);
+
+      if (currentSort.key === sortKey) {
+        currentSort.direction *= -1; // Toggle direction
+      } else {
+        currentSort.key = sortKey;
+        currentSort.direction = 1;
+      }
+
+      updateFiltersAndSort();
     });
   });
 </script>
