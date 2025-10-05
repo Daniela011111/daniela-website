@@ -7,23 +7,46 @@
   <link rel="stylesheet" href="styles.css" />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
-    main table {
-      width: 80%;
-      margin: 20px auto;
+    main {
+      padding: 40px 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    #filters {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    #filters select,
+    #filters button {
+      padding: 8px 12px;
+      margin: 5px;
+      font-size: 1rem;
+    }
+
+    table {
+      width: 90%;
+      margin: 0 auto;
       border-collapse: collapse;
     }
-    main th, main td {
-      border: 1px solid #ccc;
+
+    th, td {
+      border: 1px solid #ddd;
       padding: 10px;
-      text-align: left;
+      text-align: center;
     }
-    main th {
-      background-color: #f2f2f2;
+
+    th {
+      background-color: #f4f4f4;
     }
+
     .back-link {
       display: block;
-      margin: 20px auto;
-      width: fit-content;
+      text-align: center;
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -31,7 +54,7 @@
 
 <nav>
   <ul class="menu">
-    <li>My Classes
+    <li><a href="#">My Classes</a>
       <ul>
         <li><a href="#">Web Systems I_521F_FA25_ON - COP4813_521F_FA25</a></li>
         <li><a href="#">Business Writing_507A_FA25_ON - GEB3213_507A_FA25</a></li>
@@ -41,22 +64,23 @@
         <li><a href="#">Systems Integration_522F_FA25_ON - CEN4801_522F_FA25</a></li>
       </ul>
     </li>
-    <li>My Assignments
+    <li><a href="#">My Assignments</a>
       <ul>
         <li><a href="about.html">Assignment 1</a></li>
         <li><a href="assigment2.html">Assignment 2</a></li>
         <li><a href="assignment3.html">Assignment 3</a></li>
+        <li><a href="assignment4.html">Assignment 4</a></li>
         <li><a href="assignment5.html">Assignment 5</a></li>
         <li><a href="assignment6.html">Assignment 6</a></li>
       </ul>
     </li>
-    <li>My Favorite Sites
+    <li><a href="#">My Favorite Sites</a>
       <ul>
-        <li><a href="https://w3schools.com" target="_blank" rel="noopener noreferrer">W3Schools</a></li>
-        <li><a href="https://developer.mozilla.org" target="_blank" rel="noopener noreferrer">MDN</a></li>
+        <li><a href="https://w3schools.com" target="_blank">W3Schools</a></li>
+        <li><a href="https://developer.mozilla.org" target="_blank">MDN</a></li>
       </ul>
     </li>
-    <li>Programming Sites
+    <li><a href="#">Programming Sites</a>
       <ul>
         <li><a href="#">Site 1</a></li>
         <li><a href="#">Site 2</a></li>
@@ -66,19 +90,37 @@
 </nav>
 
 <main>
-  <h1>Assignment 6: Player Stats from JSON</h1>
+  <h1>Assignment 6: Puerto Rico 2024 Basketball Team</h1>
 
-  <table id="playerTable">
+  <div id="filters">
+    <label for="seasonSelect">Season:</label>
+    <select id="seasonSelect">
+      <option value="">All</option>
+    </select>
+
+    <label for="teamSelect">Team:</label>
+    <select id="teamSelect">
+      <option value="">All</option>
+    </select>
+
+    <button id="resetBtn">Reset Filters</button>
+  </div>
+
+  <table>
     <thead>
       <tr>
-        <th>Name</th>
+        <th>Player</th>
         <th>Team</th>
         <th>Season</th>
-        <th>Goals</th>
+        <th>Games</th>
+        <th>PPG</th>
+        <th>APG</th>
+        <th>RPG</th>
+        <th>3P%</th>
       </tr>
     </thead>
-    <tbody>
-      <!-- Populated by JS -->
+    <tbody id="playerTable">
+      <!-- Populated by JavaScript -->
     </tbody>
   </table>
 
@@ -86,23 +128,64 @@
 </main>
 
 <script>
+  let allPlayers = [];
+
+  function populateTable(data) {
+    const table = $("#playerTable");
+    table.empty();
+
+    data.forEach(player => {
+      table.append(`
+        <tr>
+          <td>${player.name}</td>
+          <td>${player.team}</td>
+          <td>${player.season}</td>
+          <td>${player.games}</td>
+          <td>${player.ppg}</td>
+          <td>${player.apg}</td>
+          <td>${player.rpg}</td>
+          <td>${player.threeP}</td>
+        </tr>
+      `);
+    });
+  }
+
+  function updateFilters() {
+    const selectedSeason = $("#seasonSelect").val();
+    const selectedTeam = $("#teamSelect").val();
+
+    const filtered = allPlayers.filter(player =>
+      (selectedSeason === "" || player.season === selectedSeason) &&
+      (selectedTeam === "" || player.team === selectedTeam)
+    );
+
+    populateTable(filtered);
+  }
+
   $(document).ready(function () {
     $.getJSON("mydata.json", function (data) {
-      var players = data.players;
-      var tableBody = "";
+      allPlayers = data.players;
+      populateTable(allPlayers);
 
-      $.each(players, function (i, player) {
-        tableBody += "<tr>" +
-                       "<td>" + player.name + "</td>" +
-                       "<td>" + player.team + "</td>" +
-                       "<td>" + player.season + "</td>" +
-                       "<td>" + player.goals + "</td>" +
-                     "</tr>";
+      // Get unique seasons and teams
+      const seasons = [...new Set(allPlayers.map(p => p.season))];
+      const teams = [...new Set(allPlayers.map(p => p.team))];
+
+      // Populate filter dropdowns
+      seasons.forEach(season => {
+        $("#seasonSelect").append(`<option value="${season}">${season}</option>`);
       });
 
-      $("#playerTable tbody").html(tableBody);
-    }).fail(function () {
-      alert("Error loading JSON data.");
+      teams.forEach(team => {
+        $("#teamSelect").append(`<option value="${team}">${team}</option>`);
+      });
+    });
+
+    $("#seasonSelect, #teamSelect").on("change", updateFilters);
+    $("#resetBtn").on("click", function () {
+      $("#seasonSelect").val("");
+      $("#teamSelect").val("");
+      populateTable(allPlayers);
     });
   });
 </script>
