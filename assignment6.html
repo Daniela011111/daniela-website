@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Assignment 6 - Daniela Arocho</title>
+  <title>Puerto Rico Olympic Team 2024</title>
   <link rel="stylesheet" href="styles.css" />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
@@ -41,6 +41,12 @@
 
     th {
       background-color: #f4f4f4;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    th.sortable:hover {
+      background-color: #ddd;
     }
 
     .back-link {
@@ -90,7 +96,7 @@
 </nav>
 
 <main>
-  <h1>Assignment 6: Puerto Rico 2024 Basketball Team</h1>
+  <h1>Puerto Rico Olympic Team 2024</h1>
 
   <div id="filters">
     <label for="seasonSelect">Season:</label>
@@ -109,86 +115,9 @@
   <table>
     <thead>
       <tr>
-        <th>Player</th>
+        <th class="sortable" data-sort="lastName">Player &#x25B2;&#x25BC;</th>
         <th>Team</th>
         <th>Season</th>
         <th>Games</th>
-        <th>PPG</th>
-        <th>APG</th>
-        <th>RPG</th>
-        <th>3P%</th>
-      </tr>
-    </thead>
-    <tbody id="playerTable">
-      <!-- Populated by JavaScript -->
-    </tbody>
-  </table>
-
-  <a href="index.html" class="back-link">← Back to Home</a>
-</main>
-
-<script>
-  let allPlayers = [];
-
-  function populateTable(data) {
-    const table = $("#playerTable");
-    table.empty();
-
-    data.forEach(player => {
-      table.append(`
-        <tr>
-          <td>${player.name}</td>
-          <td>${player.team}</td>
-          <td>${player.season}</td>
-          <td>${player.games}</td>
-          <td>${player.ppg}</td>
-          <td>${player.apg}</td>
-          <td>${player.rpg}</td>
-          <td>${player.threeP}</td>
-        </tr>
-      `);
-    });
-  }
-
-  function updateFilters() {
-    const selectedSeason = $("#seasonSelect").val();
-    const selectedTeam = $("#teamSelect").val();
-
-    const filtered = allPlayers.filter(player =>
-      (selectedSeason === "" || player.season === selectedSeason) &&
-      (selectedTeam === "" || player.team === selectedTeam)
-    );
-
-    populateTable(filtered);
-  }
-
-  $(document).ready(function () {
-    $.getJSON("mydata.json", function (data) {
-      allPlayers = data.players;
-      populateTable(allPlayers);
-
-      // Get unique seasons and teams
-      const seasons = [...new Set(allPlayers.map(p => p.season))];
-      const teams = [...new Set(allPlayers.map(p => p.team))];
-
-      // Populate filter dropdowns
-      seasons.forEach(season => {
-        $("#seasonSelect").append(`<option value="${season}">${season}</option>`);
-      });
-
-      teams.forEach(team => {
-        $("#teamSelect").append(`<option value="${team}">${team}</option>`);
-      });
-    });
-
-    $("#seasonSelect, #teamSelect").on("change", updateFilters);
-    $("#resetBtn").on("click", function () {
-      $("#seasonSelect").val("");
-      $("#teamSelect").val("");
-      populateTable(allPlayers);
-    });
-  });
-</script>
-
-</body>
-</html>
+        <th class="sortable" data-sort="fgm_percentage">FGM% &#x25B2;&#x25BC;</th>
+       
