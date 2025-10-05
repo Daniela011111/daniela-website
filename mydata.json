@@ -1,22 +1,64 @@
 {
   "players": [
     {
-      "name": "Alex Morgan",
-      "team": "Orlando Pride",
-      "season": "2023",
-      "goals": 18
+      "name": "José Alvarado",
+      "team": "PUR",
+      "season": "2024",
+      "games": 12,
+      "ppg": 18.7,
+      "apg": 6.4,
+      "rpg": 3.2,
+      "threeP": "36.2%"
     },
     {
-      "name": "Lionel Messi",
-      "team": "Inter Miami",
-      "season": "2023",
-      "goals": 23
+      "name": "Tremont Waters",
+      "team": "PUR",
+      "season": "2024",
+      "games": 13,
+      "ppg": 21.5,
+      "apg": 7.1,
+      "rpg": 4.0,
+      "threeP": "38.4%"
     },
     {
-      "name": "Christine Sinclair",
-      "team": "Portland Thorns",
-      "season": "2023",
-      "goals": 10
+      "name": "George Conditt",
+      "team": "PUR",
+      "season": "2024",
+      "games": 12,
+      "ppg": 15.9,
+      "apg": 2.2,
+      "rpg": 8.6,
+      "threeP": "29.8%"
+    },
+    {
+      "name": "Jordan Howard",
+      "team": "PUR",
+      "season": "2024",
+      "games": 11,
+      "ppg": 17.3,
+      "apg": 4.8,
+      "rpg": 2.1,
+      "threeP": "41.7%"
+    },
+    {
+      "name": "Ismael Romero",
+      "team": "PUR",
+      "season": "2024",
+      "games": 10,
+      "ppg": 13.4,
+      "apg": 1.7,
+      "rpg": 7.5,
+      "threeP": "27.6%"
+    },
+    {
+      "name": "Chris Ortiz",
+      "team": "PUR",
+      "season": "2024",
+      "games": 9,
+      "ppg": 12.1,
+      "apg": 2.3,
+      "rpg": 6.4,
+      "threeP": "35.9%"
     }
   ]
 }
