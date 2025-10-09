@@ -149,6 +149,11 @@
     }
   }
 
+  // Deal cards immediately when page loads
+  window.addEventListener('DOMContentLoaded', () => {
+    dealCards();
+  });
+
   // Deal on button click
   dealButton.addEventListener('click', () => {
     dealCards();
