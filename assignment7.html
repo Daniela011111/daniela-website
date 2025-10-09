@@ -6,7 +6,6 @@
   <title>Assignment 7 - Daniela Arocho</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
-    /* Additional styles for cards & discard area */
     #dealButton {
       display: block;
       margin: 20px auto;
@@ -30,7 +29,7 @@
       justify-content: center;
     }
     .card {
-      width: 72px;  /* typical card size */
+      width: 72px;
       height: 96px;
       cursor: grab;
       border-radius: 5px;
@@ -59,51 +58,13 @@
 </head>
 <body>
 
-<nav>
-  <ul class="menu">
-    <li>My Classes
-      <ul>
-        <li><a href="#">Web Systems I_521F_FA25_ON - COP4813_521F_FA25</a></li>
-        <li><a href="#">Business Writing_507A_FA25_ON - GEB3213_507A_FA25</a></li>
-        <li><a href="#">Web Systems I_522F_FA25_ON - COP4813_522F_FA25</a></li>
-        <li><a href="#">Operating Systems_521F_FA25_ON - COP4610_521F_FA25</a></li>
-        <li><a href="#">Applied Cybersecurity_521F_FA25_ON - CIS4360_521F_FA25</a></li>
-        <li><a href="#">Systems Integration_522F_FA25_ON - CEN4801_522F_FA25</a></li>
-      </ul>
-    </li>
-    <li>My Assignments
-      <ul>
-        <li><a href="assignment.html">Assignment 1</a></li>
-        <li><a href="assigment2.html">Assignment 2</a></li>
-        <li><a href="assignment3.html">Assignment 3</a></li>
-        <li><a href="assignment4.html">Assignment 4</a></li>
-        <li><a href="assignment5.html">Assignment 5</a></li>
-        <li><a href="assignment6.html">Assignment 6</a></li>
-        <li><a href="assignment7.html">Assignment 7</a></li>
-      </ul>
-    </li>
-    <li>My Favorite Sites
-      <ul>
-        <li><a href="https://w3schools.com" target="_blank" rel="noopener noreferrer">W3Schools</a></li>
-        <li><a href="https://developer.mozilla.org" target="_blank" rel="noopener noreferrer">MDN</a></li>
-      </ul>
-    </li>
-    <li>Programming Sites
-      <ul>
-        <li><a href="#">Site 1</a></li>
-        <li><a href="#">Site 2</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-
 <main>
   <h1>Assignment 7: Drag and Drop Card Deck</h1>
 
   <button id="dealButton">Deal Cards</button>
 
   <div id="cardsContainer">
-    <!-- Cards will appear here -->
+    <!-- Cards will be dealt here -->
   </div>
 
   <div id="discardPile">Discard Pile<br>Drop cards here</div>
@@ -112,7 +73,6 @@
 </main>
 
 <script>
-  // Card suits and ranks to build file names
   const suits = ['S', 'H', 'D', 'C']; // Spades, Hearts, Diamonds, Clubs
   const ranks = [1,2,3,4,5,6,7,8,9,10,11,12,13]; // 1=Ace, 11=Jack, 12=Queen, 13=King
 
@@ -120,10 +80,44 @@
   const dealButton = document.getElementById('dealButton');
   const discardPile = document.getElementById('discardPile');
 
-  // We'll keep track of dealt cards to avoid duplicates
-  let deck = [];
+  // Updated card-to-image path based on your actual file names
+  function cardToImagePath(card) {
+    const suitNames = {
+      S: 'spades',
+      H: 'hearts',
+      D: 'diamonds',
+      C: 'clubs'
+    };
 
-  // Create a full deck of cards as objects with suit and rank
+    const rankNames = {
+      1: 'ace',
+      11: 'jack',
+      12: 'queen',
+      13: 'king'
+    };
+
+    const rank = rankNames[card.rank] || card.rank;
+    const suit = suitNames[card.suit];
+
+    return `images/${rank}_of_${suit}.png`;
+  }
+
+  function createCardElement(card) {
+    const img = document.createElement('img');
+    img.src = cardToImagePath(card);
+    img.alt = `${card.suit}${card.rank}`;
+    img.classList.add('card');
+    img.draggable = true;
+    img.id = `card-${card.suit}${card.rank}`;
+
+    img.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', img.id);
+      e.dataTransfer.effectAllowed = 'move';
+    });
+
+    return img;
+  }
+
   function createDeck() {
     const newDeck = [];
     for (const suit of suits) {
@@ -134,68 +128,43 @@
     return newDeck;
   }
 
-  // Shuffle the deck array
   function shuffle(deck) {
-    for (let i = deck.length -1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i+1));
+    for (let i = deck.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
       [deck[i], deck[j]] = [deck[j], deck[i]];
     }
     return deck;
   }
 
-  // Convert card object to image file path, assuming your images are in images/cards/
-  function cardToImagePath(card) {
-    // Images named like: S1.png, H13.png, etc.
-    return `images/cards/${card.suit}${card.rank}.png`;
-  }
-
-  // Create and return an img element for the card with drag enabled
-  function createCardElement(card) {
-    const img = document.createElement('img');
-    img.src = cardToImagePath(card);
-    img.alt = `${card.suit}${card.rank}`;
-    img.classList.add('card');
-    img.draggable = true;
-
-    // Set an id for drag data
-    img.id = `card-${card.suit}${card.rank}`;
-
-    // Drag start event
-    img.addEventListener('dragstart', (e) => {
-      e.dataTransfer.setData('text/plain', img.id);
-      e.dataTransfer.effectAllowed = 'move';
-    });
-
-    return img;
-  }
-
-  // Clear cards container
   function clearCards() {
     cardsContainer.innerHTML = '';
   }
 
-  // Deal all cards at once (or a smaller hand if you want)
   function dealCards() {
     clearCards();
-    deck = createDeck();
-    shuffle(deck);
-
+    let deck = shuffle(createDeck());
     for (const card of deck) {
       const cardEl = createCardElement(card);
       cardsContainer.appendChild(cardEl);
     }
   }
 
-  // Handle discard pile dragover & drop
+  // Deal on button click
+  dealButton.addEventListener('click', () => {
+    dealCards();
+  });
+
+  // Drag over discard pile
   discardPile.addEventListener('dragover', (e) => {
     e.preventDefault();
     discardPile.classList.add('dragover');
   });
 
-  discardPile.addEventListener('dragleave', (e) => {
+  discardPile.addEventListener('dragleave', () => {
     discardPile.classList.remove('dragover');
   });
 
+  // Drop on discard pile
   discardPile.addEventListener('drop', (e) => {
     e.preventDefault();
     discardPile.classList.remove('dragover');
@@ -203,15 +172,10 @@
     const cardId = e.dataTransfer.getData('text/plain');
     const cardEl = document.getElementById(cardId);
     if (cardEl) {
-      cardEl.remove(); // Remove the card from the screen
+      alert(`Discarded card: ${cardEl.alt}`);
+      cardEl.remove();
     }
   });
-
-  // Deal button click event
-  dealButton.addEventListener('click', () => {
-    dealCards();
-  });
-
 </script>
 
 </body>
