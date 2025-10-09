@@ -2,8 +2,8 @@ let deck = [];
 let dealtCards = [];
 
 function buildDeck() {
-  deck = [];  // Clear deck before building
-  const suits = ['S', 'H', 'D', 'C'];  // Spades, Hearts, Diamonds, Clubs
+  deck = [];
+  const suits = ['S', 'H', 'D', 'C'];
   for (let s of suits) {
     for (let i = 1; i <= 13; i++) {
       deck.push(`${s}${i}`);
@@ -18,21 +18,42 @@ function shuffle(array) {
   }
 }
 
+function convertCardCodeToFilename(code) {
+  const suitMap = {
+    'S': 'spades',
+    'H': 'hearts',
+    'D': 'diamonds',
+    'C': 'clubs'
+  };
+
+  const rankMap = {
+    '1': 'ace',
+    '11': 'jack',
+    '12': 'queen',
+    '13': 'king'
+  };
+
+  const suit = suitMap[code[0]];
+  const rankNumber = code.slice(1);
+  const rank = rankMap[rankNumber] || rankNumber;
+
+  return `${rank}_of_${suit}.png`;
+}
+
 function dealCards() {
   const hand = document.getElementById('hand');
-  hand.innerHTML = '';  // Clear previous cards
+  hand.innerHTML = '';
   dealtCards = [];
 
   buildDeck();
   shuffle(deck);
 
-  // Deal 5 cards
   for (let i = 0; i < 5; i++) {
     const cardCode = deck.pop();
     dealtCards.push(cardCode);
 
     const img = document.createElement('img');
-    img.src = `images/cards/${cardCode}.png`;  // Update path if needed
+    img.src = `images/${convertCardCodeToFilename(cardCode)}`;
     img.classList.add('card');
     img.draggable = true;
     img.id = cardCode;
@@ -51,11 +72,11 @@ const discard = document.getElementById('discard');
 
 discard.addEventListener('dragover', (e) => {
   e.preventDefault();
-  discard.style.backgroundColor = '#ddd'; // Visual highlight on dragover
+  discard.style.backgroundColor = '#ddd';
 });
 
-discard.addEventListener('dragleave', (e) => {
-  discard.style.backgroundColor = ''; // Remove highlight when drag leaves
+discard.addEventListener('dragleave', () => {
+  discard.style.backgroundColor = '';
 });
 
 discard.addEventListener('drop', (e) => {
@@ -64,7 +85,8 @@ discard.addEventListener('drop', (e) => {
   const cardId = e.dataTransfer.getData('text/plain');
   const card = document.getElementById(cardId);
   if (card) {
-    card.remove(); // Remove card from hand
-    discard.appendChild(card); // Add card to discard pile
+    card.remove(); // Remove from hand
+    discard.appendChild(card); // Move to discard pile
+    alert(`Discarded: ${card.alt}`);
   }
 });
