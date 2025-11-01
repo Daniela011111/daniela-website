@@ -7,11 +7,12 @@
   <title>Home - Daniela Arocho</title>
 
   <style>
+    /* ---------- Desktop / Default Styles ---------- */
     body {
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      background-color: #f4f4f9; /* changed from white */
+      background-color: #f4f4f9;
       color: #333;
       display: flex;
       justify-content: center;
@@ -24,7 +25,7 @@
     }
 
     nav {
-      background-color: #333; /* dark nav background */
+      background-color: #333;
       padding: 10px 0;
     }
 
@@ -44,7 +45,7 @@
     .menu li ul {
       display: none;
       position: absolute;
-      background-color: #333; /* dropdown matches nav bg */
+      background-color: #333;
       list-style-type: none;
       padding: 10px 0;
       margin: 0;
@@ -59,14 +60,14 @@
 
     .menu a {
       text-decoration: none;
-      color: white; /* nav link color */
+      color: white;
       padding: 10px 15px;
       display: block;
       font-weight: bold;
     }
 
     .menu a:hover {
-      background-color: #555; /* hover color */
+      background-color: #555;
       border-radius: 5px;
     }
 
@@ -86,6 +87,52 @@
       margin-top: 20px;
       border-radius: 8px;
     }
+
+    /* ---------- Mobile Styles ---------- */
+    @media only screen and (max-width: 768px) {
+      body {
+        display: block; /* stop centering for mobile scrolling */
+        height: auto;
+        padding: 10px;
+      }
+
+      .wrapper {
+        width: 100%;
+      }
+
+      nav {
+        padding: 10px 0;
+      }
+
+      .menu {
+        flex-direction: column; /* vertical menu */
+        align-items: flex-start;
+        gap: 0;
+      }
+
+      .menu > li {
+        width: 100%;
+      }
+
+      .menu a {
+        padding: 10px 15px;
+      }
+
+      .menu li ul {
+        position: static; /* dropdowns flow naturally */
+        box-shadow: none;
+        border-radius: 0;
+      }
+
+      main {
+        padding: 20px 10px;
+      }
+
+      main img {
+        max-width: 100%; /* scale image to screen width */
+        height: auto;
+      }
+    }
   </style>
 </head>
 <body>
@@ -104,17 +151,17 @@
         </ul>
       </li>
       <li><a href="#">My Assignments</a>
-  <ul>
-    <li><a href="about.html">Assignment 1</a></li>
-    <li><a href="assigment2.html">Assignment 2</a></li>
-    <li><a href="assignment3.html">Assignment 3</a></li>
-    <li><a href="assignment4.html">Assignment 4</a></li>
-    <li><a href="assignment5.html">Assignment 5</a></li>
-    <li><a href="assignment6.html">Assignment 6</a></li>
-    <li><a href="assignment7.html">Assignment 7</a></li>
-    <li><a href="assignment9.html">Assignment 9</a></li>
-  </ul>
-</li>
+        <ul>
+          <li><a href="about.html">Assignment 1</a></li>
+          <li><a href="assigment2.html">Assignment 2</a></li>
+          <li><a href="assignment3.html">Assignment 3</a></li>
+          <li><a href="assignment4.html">Assignment 4</a></li>
+          <li><a href="assignment5.html">Assignment 5</a></li>
+          <li><a href="assignment6.html">Assignment 6</a></li>
+          <li><a href="assignment7.html">Assignment 7</a></li>
+          <li><a href="assignment9.html">Assignment 9</a></li>
+        </ul>
+      </li>
       <li><a href="#">My Favorite Sites</a>
         <ul>
           <li><a href="https://w3schools.com" target="_blank" rel="noopener noreferrer">W3Schools</a></li>
