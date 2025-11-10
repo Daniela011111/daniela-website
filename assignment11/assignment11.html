@@ -1,61 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Assignment 11 - Program Advising Tool</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f9;
-      color: #333;
-      margin: 0;
-      padding: 20px;
-    }
-    main {
-      max-width: 900px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    h1, h2 {
-      color: #0077cc;
-    }
-    h1 { margin-bottom: 20px; }
-    h2 { margin-top: 40px; margin-bottom: 10px; }
-    #instructions {
-      text-align: center;
-      font-size: 18px;
-      color: #0077cc;
-      margin-bottom: 20px;
-    }
-    .course-item {
-      margin: 10px 0;
-      padding: 10px;
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      text-align: left;
-    }
-    .course-item.disabled {
-      opacity: 0.5;
-    }
-    .note {
-      font-size: 0.9em;
-      color: #555;
-      margin-left: 20px;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="description" content="Assignment 11 - Dynamic Class Advisor" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Assignment 11 - Daniela Arocho</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-<main>
-  <h1>Assignment 11: Program Advising Tool</h1>
-  <p id="instructions">Select the classes you’ve already taken to see which courses you can take next.</p>
 
-  <!-- Course list will be dynamically inserted here -->
-  <div id="course-list"></div>
+<nav>
+  <ul class="menu">
+    <li>My Classes
+      <ul>
+        <li><a href="#">Web Systems I_521F_FA25_ON - COP4813_521F_FA25</a></li>
+        <li><a href="#">Business Writing_507A_FA25_ON - GEB3213_507A_FA25</a></li>
+      </ul>
+    </li>
+    <li>My Assignments
+      <ul>
+        <li><a href="about.html">Assignment 1</a></li>
+        <li><a href="assigment2.html">Assignment 2</a></li>
+        <li><a href="assignment3.html">Assignment 3</a></li>
+        <li><a href="assignment11.html">Assignment 11</a></li>
+      </ul>
+    </li>
+    <li>My Favorite Sites
+      <ul>
+        <li><a href="https://w3schools.com" target="_blank" rel="noopener noreferrer">W3Schools</a></li>
+        <li><a href="https://developer.mozilla.org" target="_blank" rel="noopener noreferrer">MDN</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<main>
+  <h1>Assignment 11: Dynamic Class Advisor</h1>
+
+  <p>Select the courses you have taken to see which courses you are eligible to take:</p>
+
+  <section>
+    <h2>Courses Taken</h2>
+    <div id="takenCourses"></div>
+  </section>
+
+  <section>
+    <h2>Available Courses</h2>
+    <div id="availableCourses"></div>
+  </section>
+
+  <a href="assignment10.html">← Back to Assignment 10</a>
 </main>
 
-<!-- Link to external JS -->
 <script src="assignment11.js"></script>
 </body>
 </html>
