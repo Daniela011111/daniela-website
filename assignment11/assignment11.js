@@ -1,21 +1,19 @@
 let courses = [];
 let takenCourses = new Set();
 
-// Fetch courses from JSON
+// Load courses.json
 fetch('courses.json')
   .then(response => response.json())
   .then(data => {
     courses = data;
     renderCourses();
   })
-  .catch(error => console.error('Error loading courses:', error));
+  .catch(err => console.error('Error loading courses.json:', err));
 
-// Render the interface
+// Render courses
 function renderCourses() {
   const takenDiv = document.getElementById('takenCourses');
   const availableDiv = document.getElementById('availableCourses');
-
-  // Clear previous content
   takenDiv.innerHTML = '';
   availableDiv.innerHTML = '';
 
@@ -23,19 +21,16 @@ function renderCourses() {
     // Courses Taken Checkbox
     const takenItem = document.createElement('div');
     takenItem.className = 'course-item';
-    
+
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.id = `taken-${course.code}`;
     checkbox.checked = takenCourses.has(course.code);
 
     checkbox.addEventListener('change', () => {
-      if (checkbox.checked) {
-        takenCourses.add(course.code);
-      } else {
-        takenCourses.delete(course.code);
-      }
-      renderCourses(); // Re-render to update available courses
+      if (checkbox.checked) takenCourses.add(course.code);
+      else takenCourses.delete(course.code);
+      renderCourses();
     });
 
     const label = document.createElement('label');
@@ -74,7 +69,5 @@ function renderCourses() {
 function canTake(course) {
   if (takenCourses.has(course.code)) return false;
   if (course.prerequisites.length === 0) return true;
-
-  // OR pre-req handling: at least one of the prereqs taken
   return course.prerequisites.some(pr => takenCourses.has(pr));
 }
