@@ -1,106 +1,59 @@
-// ----- JSON Data -----
-const programData = {
-  courses: [
-    {
-      code: "COP1000",
-      name: "Introduction to Programming",
-      prereqs: [],
-      note: "Start here if you’re new to programming."
-    },
-    {
-      code: "COP2001",
-      name: "Intermediate Programming",
-      prereqs: ["COP1000"],
-      note: "Builds on COP1000; focuses on problem solving and OOP basics."
-    },
-    {
-      code: "COP2800",
-      name: "Java Programming",
-      prereqs: ["COP1000"],
-      note: "Java path — can substitute for COP2001."
-    },
-    {
-      code: "CIS2910",
-      name: "IT Capstone Project",
-      prereqs: [["COP2001", "COP2800"]],
-      note: "You must complete either COP2001 OR COP2800 before this course."
-    }
-  ]
-};
+// Sample JSON data for courses
+const courses = [
+  { code: "COP2001", name: "Programming Fundamentals", prerequisites: [], note: "Introductory course." },
+  { code: "COP2800", name: "Data Structures", prerequisites: [["COP2001"]], note: "You must take COP2001 first." },
+  { code: "COP3000", name: "Advanced Programming", prerequisites: [["COP2001", "COP2800"]], note: "Either COP2001 or COP2800 is required." }
+];
 
-// ----- Dynamic UI -----
-const courseList = document.getElementById("course-list");
-let takenCourses = new Set();
+const takenDiv = document.getElementById("takenCourses");
+const availableDiv = document.getElementById("availableCourses");
 
-function renderCourses() {
-  courseList.innerHTML = ""; // clear previous content
+// Dynamically create checkboxes for each course
+function createCourseCheckbox(course) {
+  const div = document.createElement("div");
+  div.className = "course";
+  
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.id = course.code;
+  checkbox.value = course.code;
 
-  programData.courses.forEach(course => {
+  const label = document.createElement("label");
+  label.htmlFor = course.code;
+  label.textContent = `${course.code}: ${course.name}`;
+
+  div.appendChild(checkbox);
+  div.appendChild(label);
+  takenDiv.appendChild(div);
+
+  checkbox.addEventListener("change", updateAvailableCourses);
+}
+
+// Check if user has taken at least one course in an OR group
+function hasTaken(courseCodes, takenCourses) {
+  return courseCodes.some(code => takenCourses.includes(code));
+}
+
+// Update available courses dynamically
+function updateAvailableCourses() {
+  const takenCourses = Array.from(takenDiv.querySelectorAll("input:checked")).map(cb => cb.value);
+  availableDiv.innerHTML = "";
+
+  courses.forEach(course => {
+    if (takenCourses.includes(course.code)) return; // Skip already taken
+
+    const canTake = course.prerequisites.every(prereqGroup => hasTaken(prereqGroup, takenCourses));
+
     const div = document.createElement("div");
-    div.classList.add("course-item");
+    div.className = `course ${canTake ? 'available' : 'unavailable'}`;
+    div.textContent = `${course.code}: ${course.name} ${course.note ? `(${course.note})` : ''}`;
 
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.id = course.code;
-    checkbox.checked = takenCourses.has(course.code);
-
-    const label = document.createElement("label");
-    label.setAttribute("for", course.code);
-    label.textContent = `${course.code} – ${course.name}`;
-
-    const note = document.createElement("p");
-    note.classList.add("note");
-    note.textContent = course.note;
-
-    // Disable checkbox if prerequisites not met
-    if (!canTake(course)) {
-      checkbox.disabled = true;
-      div.classList.add("disabled");
-    }
-
-    // Update takenCourses on change
-    checkbox.addEventListener("change", e => {
-      if (e.target.checked) {
-        takenCourses.add(course.code);
-
-        // If this course is part of an OR prereq, disable the alternatives
-        programData.courses.forEach(c => {
-          c.prereqs.forEach(pr => {
-            if (Array.isArray(pr) && pr.includes(course.code)) {
-              pr.forEach(alt => {
-                if (alt !== course.code && takenCourses.has(alt)) {
-                  takenCourses.delete(alt);
-                }
-              });
-            }
-          });
-        });
-
-      } else {
-        takenCourses.delete(course.code);
-      }
-      renderCourses(); // refresh UI
-    });
-
-    div.appendChild(checkbox);
-    div.appendChild(label);
-    div.appendChild(note);
-    courseList.appendChild(div);
+    availableDiv.appendChild(div);
   });
 }
 
-// Check if user can take a course
-function canTake(course) {
-  if (!course.prereqs || course.prereqs.length === 0) return true;
+// Initialize checkboxes
+courses.forEach(createCourseCheckbox);
 
-  return course.prereqs.every(req => {
-    if (Array.isArray(req)) {
-      // OR condition: at least one taken
-      return req.some(r => takenCourses.has(r));
-    }
-    return takenCourses.has(req);
-  });
-}
-
-// Initial render
-renderCourses();
+// Initial display
+updateAvailableCourses();
