@@ -33,7 +33,7 @@ const courseList = document.getElementById("course-list");
 let takenCourses = new Set();
 
 function renderCourses() {
-  courseList.innerHTML = "";
+  courseList.innerHTML = ""; // clear previous content
 
   programData.courses.forEach(course => {
     const div = document.createElement("div");
@@ -52,18 +52,20 @@ function renderCourses() {
     note.classList.add("note");
     note.textContent = course.note;
 
+    // Disable checkbox if prerequisites not met
     if (!canTake(course)) {
       checkbox.disabled = true;
       div.classList.add("disabled");
     }
 
+    // Update takenCourses on change
     checkbox.addEventListener("change", e => {
       if (e.target.checked) {
         takenCourses.add(course.code);
       } else {
         takenCourses.delete(course.code);
       }
-      renderCourses();
+      renderCourses(); // refresh UI
     });
 
     div.appendChild(checkbox);
@@ -73,12 +75,13 @@ function renderCourses() {
   });
 }
 
+// Check if user can take a course
 function canTake(course) {
   if (!course.prereqs || course.prereqs.length === 0) return true;
 
   return course.prereqs.every(req => {
     if (Array.isArray(req)) {
-      // OR condition: any course in array is taken
+      // OR condition: at least one taken
       return req.some(r => takenCourses.has(r));
     }
     return takenCourses.has(req);
