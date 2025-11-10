@@ -1,66 +1,80 @@
-// Fetch courses from JSON file
-fetch("courses.json")
+let courses = [];
+let takenCourses = new Set();
+
+// Fetch courses from JSON
+fetch('courses.json')
   .then(response => response.json())
-  .then(courses => {
-    const takenContainer = document.getElementById("takenCourses");
-    const availableContainer = document.getElementById("availableCourses");
+  .then(data => {
+    courses = data;
+    renderCourses();
+  })
+  .catch(error => console.error('Error loading courses:', error));
 
-    // Create checkboxes for each course
-    courses.forEach(course => {
-      const div = document.createElement("div");
-      div.classList.add("course-item");
+// Render the interface
+function renderCourses() {
+  const takenDiv = document.getElementById('takenCourses');
+  const availableDiv = document.getElementById('availableCourses');
 
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.id = course.code;
-      checkbox.value = course.code;
+  // Clear previous content
+  takenDiv.innerHTML = '';
+  availableDiv.innerHTML = '';
 
-      const label = document.createElement("label");
-      label.htmlFor = course.code;
-      label.textContent = `${course.code} - ${course.name}`;
+  courses.forEach(course => {
+    // Courses Taken Checkbox
+    const takenItem = document.createElement('div');
+    takenItem.className = 'course-item';
+    
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = `taken-${course.code}`;
+    checkbox.checked = takenCourses.has(course.code);
 
-      const note = document.createElement("div");
-      note.classList.add("note");
-      note.textContent = course.note;
-
-      div.appendChild(checkbox);
-      div.appendChild(label);
-      div.appendChild(note);
-      takenContainer.appendChild(div);
-
-      // Event listener
-      checkbox.addEventListener("change", updateAvailableCourses);
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) {
+        takenCourses.add(course.code);
+      } else {
+        takenCourses.delete(course.code);
+      }
+      renderCourses(); // Re-render to update available courses
     });
 
-    // Check if prerequisites are met
-    function prereqsMet(course) {
-      if (!course.prerequisites.length) return true;
-      return course.prerequisites.some(prereq => {
-        const cb = document.getElementById(prereq);
-        return cb && cb.checked;
-      });
+    const label = document.createElement('label');
+    label.htmlFor = `taken-${course.code}`;
+    label.textContent = `${course.code}: ${course.name}`;
+
+    takenItem.appendChild(checkbox);
+    takenItem.appendChild(label);
+
+    if (course.note) {
+      const note = document.createElement('div');
+      note.className = 'note';
+      note.textContent = course.note;
+      takenItem.appendChild(note);
     }
 
-    // Update available courses dynamically
-    function updateAvailableCourses() {
-      availableContainer.innerHTML = "";
-      courses.forEach(course => {
-        if (!document.getElementById(course.code).checked && prereqsMet(course)) {
-          const div = document.createElement("div");
-          div.classList.add("course-item");
-          div.textContent = `${course.code} - ${course.name}`;
+    takenDiv.appendChild(takenItem);
 
-          const note = document.createElement("div");
-          note.classList.add("note");
-          note.textContent = course.note;
-
-          div.appendChild(note);
-          availableContainer.appendChild(div);
-        }
-      });
+    // Available Courses
+    if (canTake(course)) {
+      const availItem = document.createElement('div');
+      availItem.className = 'course-item';
+      availItem.textContent = `${course.code}: ${course.name}`;
+      if (course.note) {
+        const note = document.createElement('div');
+        note.className = 'note';
+        note.textContent = course.note;
+        availItem.appendChild(note);
+      }
+      availableDiv.appendChild(availItem);
     }
+  });
+}
 
-    // Initial display
-    updateAvailableCourses();
-  })
-  .catch(err => console.error("Error loading courses:", err));
+// Check if course can be taken
+function canTake(course) {
+  if (takenCourses.has(course.code)) return false;
+  if (course.prerequisites.length === 0) return true;
+
+  // OR pre-req handling: at least one of the prereqs taken
+  return course.prerequisites.some(pr => takenCourses.has(pr));
+}
