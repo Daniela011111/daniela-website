@@ -62,6 +62,20 @@ function renderCourses() {
     checkbox.addEventListener("change", e => {
       if (e.target.checked) {
         takenCourses.add(course.code);
+
+        // If this course is part of an OR prereq, disable the alternatives
+        programData.courses.forEach(c => {
+          c.prereqs.forEach(pr => {
+            if (Array.isArray(pr) && pr.includes(course.code)) {
+              pr.forEach(alt => {
+                if (alt !== course.code && takenCourses.has(alt)) {
+                  takenCourses.delete(alt);
+                }
+              });
+            }
+          });
+        });
+
       } else {
         takenCourses.delete(course.code);
       }
