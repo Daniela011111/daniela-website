@@ -1,64 +1,87 @@
-let taken = [];
-let courses = [];
+// ----- JSON data for your program -----
+const programData = {
+  courses: [
+    {
+      code: "COP1000",
+      name: "Introduction to Programming",
+      prereqs: [],
+      note: "Start here if you’re new to programming."
+    },
+    {
+      code: "COP2001",
+      name: "Intermediate Programming",
+      prereqs: ["COP1000"],
+      note: "Builds on COP1000; focuses on problem solving and OOP basics."
+    },
+    {
+      code: "COP2800",
+      name: "Java Programming",
+      prereqs: ["COP1000"],
+      note: "Java path — can substitute for COP2001."
+    },
+    {
+      code: "CIS2910",
+      name: "IT Capstone Project",
+      prereqs: [["COP2001", "COP2800"]],
+      note: "You must complete either COP2001 OR COP2800 before this course."
+    }
+  ]
+};
 
-// Load data from external JSON file
-fetch('advisorData.json')
-  .then(response => response.json())
-  .then(data => {
-    courses = data.courses;
-    renderCourses();
-  })
-  .catch(error => console.error('Error loading advisor data:', error));
-
-function canTake(course) {
-  if (!course.prerequisites.length) return true;
-  return course.prerequisites.every(req => {
-    if (Array.isArray(req)) return req.some(opt => taken.includes(opt));
-    return taken.includes(req);
-  });
-}
+// ----- Dynamic UI -----
+const courseList = document.getElementById("course-list");
+let takenCourses = new Set();
 
 function renderCourses() {
-  const container = document.getElementById("course-list");
-  container.innerHTML = "";
+  courseList.innerHTML = ""; // Clear before re-render
 
-  courses.forEach(course => {
+  programData.courses.forEach(course => {
     const div = document.createElement("div");
-    div.classList.add("course-card");
+    div.classList.add("course-item");
 
-    const title = document.createElement("h3");
-    title.textContent = `${course.code}: ${course.name}`;
-    div.appendChild(title);
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = course.code;
+    checkbox.checked = takenCourses.has(course.code);
+
+    const label = document.createElement("label");
+    label.setAttribute("for", course.code);
+    label.textContent = `${course.code} – ${course.name}`;
 
     const note = document.createElement("p");
-    note.textContent = course.notes;
-    div.appendChild(note);
+    note.classList.add("note");
+    note.textContent = course.note;
 
-    const btn = document.createElement("button");
-    btn.textContent = taken.includes(course.code)
-      ? "Mark as Not Taken"
-      : "Mark as Taken";
-
-    btn.onclick = () => toggleCourse(course.code);
-    div.appendChild(btn);
-
-    if (taken.includes(course.code)) {
-      div.classList.add("taken");
-    } else if (canTake(course)) {
-      div.classList.add("available");
-    } else {
-      div.classList.add("unavailable");
+    if (!canTake(course)) {
+      checkbox.disabled = true;
+      div.classList.add("disabled");
     }
 
-    container.appendChild(div);
+    checkbox.addEventListener("change", e => {
+      if (e.target.checked) {
+        takenCourses.add(course.code);
+      } else {
+        takenCourses.delete(course.code);
+      }
+      renderCourses(); // re-render to update available courses
+    });
+
+    div.appendChild(checkbox);
+    div.appendChild(label);
+    div.appendChild(note);
+    courseList.appendChild(div);
   });
 }
 
-function toggleCourse(code) {
-  if (taken.includes(code)) {
-    taken = taken.filter(c => c !== code);
-  } else {
-    taken.push(code);
-  }
-  renderCourses();
+function canTake(course) {
+  if (!course.prereqs || course.prereqs.length === 0) return true;
+
+  return course.prereqs.every(req => {
+    if (Array.isArray(req)) {
+      return req.some(r => takenCourses.has(r)); // OR condition
+    }
+    return takenCourses.has(req);
+  });
 }
+
+renderCourses(); // Initial page load
