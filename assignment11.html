@@ -1,13 +1,44 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Assignment 11 – Class Advisor</title>
-  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f8f8;
+      padding: 20px;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      gap: 15px;
+    }
+    nav a {
+      text-decoration: none;
+      color: #0066cc;
+      font-weight: bold;
+    }
+    .course-item {
+      margin: 10px 0;
+      padding: 10px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .course-item.disabled {
+      opacity: 0.5;
+    }
+    .note {
+      font-size: 0.9em;
+      color: #555;
+      margin-left: 20px;
+    }
+  </style>
 </head>
 <body>
-  <!-- Navigation (same style as your other pages) -->
   <nav>
     <ul class="menu">
       <li><a href="index.html">Home</a></li>
@@ -16,13 +47,10 @@
     </ul>
   </nav>
 
-  <div id="advisor-container">
-    <h1>Program Advising Tool</h1>
-    <p style="text-align:center;">Select the classes you’ve already taken to see which courses are available next.</p>
-    <div id="course-list"></div>
-  </div>
+  <h1>Program Advising Tool</h1>
+  <p>Select the classes you’ve already taken to see which courses are available next.</p>
 
-  <a href="index.html" class="back-link">← Back to Home</a>
+  <div id="course-list"></div>
 
   <script src="assignment11.js"></script>
 </body>
