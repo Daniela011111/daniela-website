@@ -1,25 +1,32 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Assignment 11 – Class Advisor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Assignment 11 - Program Advising Tool</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f8f8f8;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 0;
       padding: 20px;
     }
-    nav ul {
-      list-style: none;
-      padding: 0;
-      display: flex;
-      gap: 15px;
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
     }
-    nav a {
-      text-decoration: none;
-      color: #0066cc;
-      font-weight: bold;
+    h1, h2 {
+      color: #0077cc;
+    }
+    h1 { margin-bottom: 20px; }
+    h2 { margin-top: 40px; margin-bottom: 10px; }
+    #instructions {
+      text-align: center;
+      font-size: 18px;
+      color: #0077cc;
+      margin-bottom: 20px;
     }
     .course-item {
       margin: 10px 0;
@@ -27,6 +34,7 @@
       background: white;
       border: 1px solid #ccc;
       border-radius: 6px;
+      text-align: left;
     }
     .course-item.disabled {
       opacity: 0.5;
@@ -36,22 +44,29 @@
       color: #555;
       margin-left: 20px;
     }
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 30px;
+      font-size: 16px;
+      color: #0077cc;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
-  <nav>
-    <ul class="menu">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="assignment10.html">Assignment 10</a></li>
-      <li><a href="assignment11.html">Assignment 11</a></li>
-    </ul>
-  </nav>
+<main>
+  <h1>Assignment 11: Program Advising Tool</h1>
+  <p id="instructions">Select the classes you’ve already taken to see which courses you can take next.</p>
 
-  <h1>Program Advising Tool</h1>
-  <p>Select the classes you’ve already taken to see which courses are available next.</p>
-
+  <!-- Course list will be dynamically inserted here -->
   <div id="course-list"></div>
 
-  <script src="assignment11.js"></script>
+  <!-- Back link -->
+  <a href="index.html" class="back-link">← Back to Home</a>
+</main>
+
+<script src="assignment11.js"></script>
 </body>
 </html>
+
