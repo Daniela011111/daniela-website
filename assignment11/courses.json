@@ -1,0 +1,26 @@
+[
+  {
+    "code": "COP2001",
+    "name": "Programming Fundamentals I",
+    "prerequisites": [],
+    "note": "Required first course in programming"
+  },
+  {
+    "code": "COP2800",
+    "name": "Programming Fundamentals II",
+    "prerequisites": ["COP2001"],
+    "note": "Must have completed COP2001"
+  },
+  {
+    "code": "COP3000",
+    "name": "Data Structures",
+    "prerequisites": ["COP2800", "COP2001"],
+    "note": "Complete either COP2800 or COP2001"
+  },
+  {
+    "code": "COP4000",
+    "name": "Advanced Programming",
+    "prerequisites": ["COP3000"],
+    "note": ""
+  }
+]
