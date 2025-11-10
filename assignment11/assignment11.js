@@ -1,4 +1,4 @@
-// ----- JSON data for your program -----
+// ----- JSON Data -----
 const programData = {
   courses: [
     {
@@ -33,7 +33,7 @@ const courseList = document.getElementById("course-list");
 let takenCourses = new Set();
 
 function renderCourses() {
-  courseList.innerHTML = ""; // Clear before re-render
+  courseList.innerHTML = "";
 
   programData.courses.forEach(course => {
     const div = document.createElement("div");
@@ -63,7 +63,7 @@ function renderCourses() {
       } else {
         takenCourses.delete(course.code);
       }
-      renderCourses(); // re-render to update available courses
+      renderCourses();
     });
 
     div.appendChild(checkbox);
@@ -78,10 +78,12 @@ function canTake(course) {
 
   return course.prereqs.every(req => {
     if (Array.isArray(req)) {
-      return req.some(r => takenCourses.has(r)); // OR condition
+      // OR condition: any course in array is taken
+      return req.some(r => takenCourses.has(r));
     }
     return takenCourses.has(req);
   });
 }
 
-renderCourses(); // Initial page load
+// Initial render
+renderCourses();
