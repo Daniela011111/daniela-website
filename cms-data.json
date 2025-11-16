@@ -1,0 +1,43 @@
+[
+  {
+    "name": "WordPress",
+    "support": "Open Source; Supported by Automattic",
+    "technology": "PHP, MySQL/MariaDB",
+    "capabilities": "Themes, plugins, REST API, huge community",
+    "limitations": "Security issues, plugin conflicts, needs updates",
+    "example": "https://wordpress.org/"
+  },
+  {
+    "name": "Drupal",
+    "support": "Open Source; Drupal Community",
+    "technology": "PHP, MySQL/PostgreSQL",
+    "capabilities": "Strong permissions, customizable, secure, API-first",
+    "limitations": "Steep learning curve, fewer themes",
+    "example": "https://www.drupal.org/"
+  },
+  {
+    "name": "Joomla",
+    "support": "Open Source; Joomla Foundation",
+    "technology": "PHP, MySQL",
+    "capabilities": "Good multilingual support, flexible templates, extensions",
+    "limitations": "Harder than WordPress, occasional update issues",
+    "example": "https://www.joomla.org/"
+  },
+  {
+    "name": "Wix",
+    "support": "Commercial SaaS; Wix.com",
+    "technology": "Cloud-based platform",
+    "capabilities": "Drag-and-drop builder, apps marketplace, hosting included",
+    "limitations": "Not open-source, limited backend customization",
+    "example": "https://www.wix.com/"
+  },
+  {
+    "name": "Shopify",
+    "support": "Commercial SaaS; Shopify Inc.",
+    "technology": "Hosted platform using Liquid templates",
+    "capabilities": "Ecommerce-focused, secure checkout, app store",
+    "limitations": "Monthly fees, limited customization without Liquid",
+    "example": "https://www.shopify.com/"
+  }
+]
+
